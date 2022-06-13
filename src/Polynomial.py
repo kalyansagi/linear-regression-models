@@ -6,14 +6,14 @@ import pandas as pd
 
 # Importing the dataset
 # ---------------------
-dataset = pd.read_csv('add the dataset path here...')
+dataset = pd.read_csv('Polynomial-Dataset.csv')
 X = dataset.iloc[:, 1:2].values
 y = dataset.iloc[:, 2].values
 
 # Fitting Linear Regression to the dataset
 from sklearn.linear_model import LinearRegression
-# Missing line-----------------------------------------
-# Missing line-----------------------------------------
+lin_reg = LinearRegression()
+lin_reg.fit(X, y)
 
 # Fitting Polynomial Regression to the dataset
 from sklearn.preprocessing import PolynomialFeatures
@@ -41,8 +41,8 @@ plt.show()
 # Fitting Polynomial Regression to the dataset with degree=3
 poly_reg = PolynomialFeatures(degree=3)
 X_poly = poly_reg.fit_transform(X)
-# Missing line-----------------------------------------
-# Missing line-----------------------------------------
+lin_reg_2 = LinearRegression()
+lin_reg_2.fit(X_poly, y)
 
 # Visualising the Polynomial Regression results with degree=3
 plt.scatter(X, y, color='red')
@@ -55,8 +55,8 @@ plt.show()
 # Fitting Polynomial Regression to the dataset with degree=4
 poly_reg = PolynomialFeatures(degree=4)
 X_poly = poly_reg.fit_transform(X)
-# Missing line-----------------------------------------
-# Missing line-----------------------------------------
+lin_reg_2 = LinearRegression()
+lin_reg_2.fit(X_poly, y)
 
 # Visualising the Polynomial Regression results with degree=4
 X_grid = np.arange(min(X), max(X), 0.1)
@@ -69,7 +69,9 @@ plt.ylabel('Salary')
 plt.show()
 
 # Predicting a new result with Linear Regression
-# Missing line-----------------------------------------
+lin_reg.predict([[6.5]])
 
 # Predicting a new result with Polynomial Regression
-# Missing line-----------------------------------------
+lin_reg_2.predict(poly_reg.fit_transform([[6.5]]))
+
+print(lin_reg_2.predict(poly_reg.fit_transform([[6.5]])))
