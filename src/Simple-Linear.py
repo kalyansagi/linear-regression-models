@@ -33,6 +33,11 @@ linear_regression.fit(X_train, y_train)
 # Predicting the Test set results
 y_predict = linear_regression.predict(X_test)
 
+#Find out the RMSE, expected to be in 0-1 range. This is optional;
+from sklearn.metrics import r2_score
+score = r2_score(y_test, y_predict)
+print(score)
+
 # Visualising the Training set results
 plt.scatter(X_train, y_train, color='red')
 plt.plot(X_train, linear_regression.predict(X_train), color='blue')

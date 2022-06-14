@@ -12,11 +12,17 @@ y = dataset.iloc[:, 4].values
 
 # Encoding categorical data
 # -------------------------
-from sklearn.preprocessing import LabelEncoder, OneHotEncoder
-labelencoder_X = LabelEncoder()
-X[:, 3] = labelencoder_X.fit_transform(X[:, 3])
-onehotencoder = OneHotEncoder(categorical_features=[3])
-X = onehotencoder.fit_transform(X).toarray()
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.compose import ColumnTransformer
+import numpy as np
+ct = ColumnTransformer(transformers=[('encoder', OneHotEncoder(), [3])], remainder='passthrough')
+X = np.array(ct.fit_transform(X))
+
+# from sklearn.preprocessing import OneHotEncoder
+# from sklearn.compose import ColumnTransformer
+# encoder = OneHotEncoder(drop='first', dtype=int)
+# ct = ColumnTransformer([('categorical_encoding', encoder, [3])], remainder='passthrough')
+# X = ct.fit_transform(X)
 
 # Avoiding the Dummy Variable Trap
 X = X[:, 1:]
@@ -32,23 +38,37 @@ regressor = LinearRegression()
 regressor.fit(X_train, y_train)
 
 # Predicting the Test set results
-y_pred = regressor.predict(X_test)
+y_predict = regressor.predict(X_test)
+
+# comparing the scores of test & training sets to verify the accuracy of model.
+print("Model score on Testing data", regressor.score(X_test, y_test))
+print("Model score on Training data", regressor.score(X_train, y_train))
+
+
+# Display the predicted vs actual values to verify the accuracy of model.
+df = pd.DataFrame(data={'Predicted value': y_predict.flatten(), 'Actual Value': y_test.flatten()})
+print(df)
+
+# RMSE is also another factor to indicate the accuracy of model. See below for the r2 score for my model.
+from sklearn.metrics import r2_score
+score = r2_score(y_test, y_predict)
+print("RMSE is", score)
 
 # Building the optimal model using Backward Elimination
-import statsmodels.formula.api as sm
+import statsmodels.api as sm
 X = np.append(arr=np.ones((50, 1)).astype(int), values=X, axis=1)
-X_opt = X[:, [0, 1, 2, 3, 4, 5]]
+X_opt = np.array(X[:, [0, 1, 2, 3, 4, 5]], dtype=float)
 regressor_OLS = sm.OLS(endog=y, exog=X_opt).fit()
-regressor_OLS.summary()
-X_opt = X[:, [0, 1, 3, 4, 5]]
+print(regressor_OLS.summary())
+X_opt = np.array(X[:, [0, 1, 3, 4, 5]], dtype=float)
 regressor_OLS = sm.OLS(endog=y, exog=X_opt).fit()
-regressor_OLS.summary()
-X_opt = X[:, [0, 3, 4, 5]]
+print(regressor_OLS.summary())
+X_opt = np.array(X[:, [0, 3, 4, 5]], dtype=float)
 regressor_OLS = sm.OLS(endog=y, exog=X_opt).fit()
-regressor_OLS.summary()
-X_opt = X[:, [0, 3, 5]]
+print(regressor_OLS.summary())
+X_opt = np.array(X[:, [0, 3, 5]], dtype=float)
 regressor_OLS = sm.OLS(endog=y, exog=X_opt).fit()
-regressor_OLS.summary()
-X_opt = X[:, [0, 3]]
+print(regressor_OLS.summary())
+X_opt = np.array(X[:, [0, 3]], dtype=float)
 regressor_OLS = sm.OLS(endog=y, exog=X_opt).fit()
-regressor_OLS.summary()
+print(regressor_OLS.summary())
