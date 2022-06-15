@@ -59,11 +59,13 @@ print("RMSE is", score)
 # Building the optimal model using Backward Elimination
 import statsmodels.api as sm
 X = np.append(arr=np.ones((50, 1)).astype(int), values=X, axis=1)
-X_opt = np.array(X[:, [0, 1, 2]], dtype=float)
+X_opt = X[:, [0, 1, 2]]
+print(X_opt)
 regressor_OLS = sm.OLS(endog=y, exog=X_opt).fit()
 print("regressor_OLS.summary() with 2 features(Product_1 & Product_2)")
 print(regressor_OLS.summary())
-X_opt = np.array(X[:, [0, 1]], dtype=float)
+X_opt = X[:, [0, 1]]
+print(X_opt)
 regressor_OLS = sm.OLS(endog=y, exog=X_opt).fit()
 print("regressor_OLS.summary() with 1 features(Product_1)")
 print(regressor_OLS.summary())
