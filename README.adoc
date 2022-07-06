@@ -1,0 +1,23 @@
+# linear-regression-models
+
+== What does this application do?
+
+This is a simple python application to build a linear regression models (simple, multi & polynomial) using given datasets.
+
+== Technical Details
+- Python Documentation: link:https://www.python.org/[Python]
+- Version control: git
+- IDE: Pycharm (Pure Python Project with venv)
+
+
+
+== Developer Guide to run the code locally
+==== `git clone https://github.com/kalyansagi/linear-regression-models.git`
+
+==== `cd /linear-regression-models`
+
+==== `git checkout master`
+
+
+
+
